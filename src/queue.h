@@ -9,34 +9,34 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-typedef struct
+struct queue
 {
     size_t capacity;
     size_t head;
     size_t tail;
-    int *items;
-} Queue;
+    int* items;
+};
 
-typedef enum
+enum queue_err
 {
     QUEUE_OK,
     QUEUE_MALLOC_ERR,
     QUEUE_UNDERFLOW_ERR,
     QUEUE_OVERFLOW_ERR,
-} QueueRes;
+};
 
-QueueRes queue_init(Queue *q, size_t capacity);
+enum queue_err queue_init(struct queue *q, size_t capacity);
 
-void queue_free(Queue *);
+void queue_free(struct queue *q);
 
-bool queue_is_empty(Queue);
+bool queue_is_empty(struct queue);
 
-bool queue_is_full(Queue);
+bool queue_is_full(struct queue);
 
-QueueRes queue_enqueue(Queue *q, int item);
+enum queue_err queue_enqueue(struct queue *q, int item);
 
-QueueRes queue_dequeue(Queue *q, int *item);
+enum queue_err queue_dequeue(struct queue *q, int *item);
 
-void queue_print(Queue);
+void queue_print(struct queue);
 
 #endif //CLRS_QUEUE_H

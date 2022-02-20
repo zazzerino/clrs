@@ -4,7 +4,7 @@
 
 #include "queue.h"
 
-QueueRes queue_init(Queue *q, size_t capacity)
+enum queue_err queue_init(struct queue *q, size_t capacity)
 {
     q->capacity = capacity;
     q->head = 0;
@@ -18,22 +18,22 @@ QueueRes queue_init(Queue *q, size_t capacity)
     return QUEUE_OK;
 }
 
-void queue_free(Queue *q)
+void queue_free(struct queue *q)
 {
     free(q->items);
 }
 
-bool queue_is_empty(Queue q)
+bool queue_is_empty(struct queue q)
 {
     return q.head == q.tail;
 }
 
-bool queue_is_full(Queue q)
+bool queue_is_full(struct queue q)
 {
     return q.head == (q.tail + 1) % q.capacity;
 }
 
-QueueRes queue_enqueue(Queue *q, int item)
+enum queue_err queue_enqueue(struct queue *q, int item)
 {
     if (queue_is_full(*q)) {
         return QUEUE_OVERFLOW_ERR;
@@ -47,7 +47,7 @@ QueueRes queue_enqueue(Queue *q, int item)
     return QUEUE_OK;
 }
 
-QueueRes queue_dequeue(Queue *q, int *item)
+enum queue_err queue_dequeue(struct queue *q, int *item)
 {
     if (queue_is_empty(*q)) {
         return QUEUE_UNDERFLOW_ERR;
@@ -61,7 +61,7 @@ QueueRes queue_dequeue(Queue *q, int *item)
     return QUEUE_OK;
 }
 
-void queue_print(Queue q)
+void queue_print(struct queue q)
 {
     printf("queue{capacity=%zu, head=%zu, tail=%zu, items=[", q.capacity, q.head, q.tail);
 

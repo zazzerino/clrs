@@ -4,7 +4,7 @@
 
 #include "stack.h"
 
-StackRes stack_init(Stack *s, size_t capacity)
+enum stack_err stack_init(struct stack *s, size_t capacity)
 {
     s->capacity = capacity;
     s->top = 0;
@@ -17,22 +17,22 @@ StackRes stack_init(Stack *s, size_t capacity)
     return STACK_OK;
 }
 
-void stack_free(Stack *s)
+void stack_free(struct stack *s)
 {
     free(s->items);
 }
 
-bool stack_is_empty(Stack s)
+bool stack_is_empty(struct stack s)
 {
     return 0 == s.top;
 }
 
-bool stack_is_full(Stack s)
+bool stack_is_full(struct stack s)
 {
     return s.top == s.capacity;
 }
 
-StackRes stack_push(Stack *s, int item)
+enum stack_err stack_push(struct stack *s, int item)
 {
     if (stack_is_full(*s)) {
         return STACK_OVERFLOW_ERR;
@@ -43,7 +43,7 @@ StackRes stack_push(Stack *s, int item)
     return STACK_OK;
 }
 
-StackRes stack_pop(Stack *s, int *item)
+enum stack_err stack_pop(struct stack *s, int *item)
 {
     if (stack_is_empty(*s)) {
         return STACK_UNDERFLOW_ERR;
@@ -54,7 +54,7 @@ StackRes stack_pop(Stack *s, int *item)
     return STACK_OK;
 }
 
-void stack_print(Stack s)
+void stack_print(struct stack s)
 {
     printf("stack{capacity=%zu, top=%zu, items=[", s.capacity, s.top);
 
