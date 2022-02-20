@@ -8,7 +8,7 @@
 
 int main()
 {
-    printf("running tests...\n");
+    puts("running tests...");
 
     run_stack_tests();
     run_queue_tests();

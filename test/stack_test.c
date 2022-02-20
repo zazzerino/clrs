@@ -7,43 +7,43 @@
 void run_stack_tests()
 {
     Stack s;
-    StackErr err;
+    StackRes res;
     int item;
 
-    printf("testing stack...\n");
+    puts("testing stack...");
 
-    err = stack_init(&s, 2);
+    res = stack_init(&s, 2);
     stack_print(s);
-    assert(err == STACK_NO_ERR);
+    assert(STACK_OK == res);
     assert(stack_is_empty(s));
 
-    err = stack_push(&s, 42);
+    res = stack_push(&s, 1);
     stack_print(s);
-    assert(err == STACK_NO_ERR);
+    assert(STACK_OK == res);
     assert(!stack_is_empty(s));
 
-    err = stack_push(&s, 111);
+    res = stack_push(&s, 2);
     stack_print(s);
-    assert(err == STACK_NO_ERR);
+    assert(STACK_OK == res);
     assert(stack_is_full(s));
 
-    err = stack_push(&s, 64);
-    assert(err == STACK_OVERFLOW_ERR);
+    res = stack_push(&s, 3);
+    assert(STACK_OVERFLOW_ERR == res);
 
-    err = stack_pop(&s, &item);
+    res = stack_pop(&s, &item);
     stack_print(s);
-    assert(err == STACK_NO_ERR);
-    assert(item == 111);
+    assert(STACK_OK == res);
+    assert(2 == item);
 
-    err = stack_pop(&s, &item);
+    res = stack_pop(&s, &item);
     stack_print(s);
-    assert(err == STACK_NO_ERR);
-    assert(item == 42);
+    assert(STACK_OK == res);
+    assert(1 == item);
 
-    err = stack_pop(&s, &item);
+    res = stack_pop(&s, &item);
     stack_print(s);
-    assert(err == STACK_UNDERFLOW_ERR);
-    assert(item == 42);
+    assert(STACK_UNDERFLOW_ERR == res);
+    assert(1 == item);
 
     stack_free(&s);
 }

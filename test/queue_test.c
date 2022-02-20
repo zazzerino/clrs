@@ -7,72 +7,83 @@
 void run_queue_tests()
 {
     Queue q;
-    QueueErr err;
+    QueueRes res;
     int item;
 
-    printf("testing queue...\n");
+    puts("testing queue...");
 
-    err = queue_init(&q, 3);
+    res = queue_init(&q, 4);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(QUEUE_OK == res);
     assert(queue_is_empty(q));
     assert(!queue_is_full(q));
 
-    err = queue_dequeue(&q, &item);
-    assert(err == QUEUE_UNDERFLOW_ERR);
+    res = queue_dequeue(&q, &item);
+    assert(QUEUE_UNDERFLOW_ERR == res);
 
-    err = queue_enqueue(&q, 0);
+    res = queue_enqueue(&q, 1);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(QUEUE_OK == res);
     assert(!queue_is_empty(q));
     assert(!queue_is_full(q));
 
-    err = queue_enqueue(&q, 1);
+    res = queue_enqueue(&q, 2);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(QUEUE_OK == res);
+    assert(!queue_is_empty(q));
+    assert(!queue_is_full(q));
+
+    res = queue_enqueue(&q, 3);
+    queue_print(q);
+    assert(QUEUE_OK == res);
     assert(!queue_is_empty(q));
     assert(queue_is_full(q));
 
-    err = queue_enqueue(&q, 2);
+    res = queue_enqueue(&q, 4);
     queue_print(q);
-    assert(err == QUEUE_OVERFLOW_ERR);
+    assert(QUEUE_OVERFLOW_ERR == res);
 
-    err = queue_dequeue(&q, &item);
+    res = queue_dequeue(&q, &item);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
-    assert(0 == item);
-
-    err = queue_dequeue(&q, &item);
-    queue_print(q);
-    assert(err == QUEUE_NO_ERR);
-    assert(queue_is_empty(q));
+    assert(QUEUE_OK == res);
     assert(1 == item);
+    assert(!queue_is_full(q));
 
-    err = queue_dequeue(&q, &item);
+    res = queue_enqueue(&q, 4);
     queue_print(q);
-    assert(err == QUEUE_UNDERFLOW_ERR);
+    assert(QUEUE_OK == res);
+    assert(queue_is_full(q));
 
-    err = queue_enqueue(&q, 3);
+    res = queue_dequeue(&q, &item);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(res == QUEUE_OK);
+    assert(2 == item);
+    assert(!queue_is_full(q));
 
-    err = queue_enqueue(&q, 4);
+    res = queue_enqueue(&q, 5);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(res == QUEUE_OK);
+    assert(queue_is_full(q));
 
-    err = queue_dequeue(&q, &item);
+    res = queue_dequeue(&q, &item);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(res == QUEUE_OK);
     assert(3 == item);
 
-    err = queue_enqueue(&q, 5);
+    res = queue_dequeue(&q, &item);
     queue_print(q);
-    assert(err == QUEUE_NO_ERR);
-
-    err = queue_dequeue(&q, &item);
-    queue_print(q);
-    assert(err == QUEUE_NO_ERR);
+    assert(res == QUEUE_OK);
     assert(4 == item);
+
+    res = queue_dequeue(&q, &item);
+    queue_print(q);
+    assert(res == QUEUE_OK);
+    assert(5 == item);
+    assert(queue_is_empty(q));
+
+    res = queue_dequeue(&q, &item);
+    queue_print(q);
+    assert(res == QUEUE_UNDERFLOW_ERR);
 
     queue_free(&q);
 }

@@ -12,29 +12,29 @@
 typedef struct
 {
     size_t capacity;
-    unsigned int top;
+    size_t top;
     int *items;
 } Stack;
 
 typedef enum
 {
-    STACK_NO_ERR,
+    STACK_OK,
     STACK_MALLOC_ERR,
     STACK_OVERFLOW_ERR,
     STACK_UNDERFLOW_ERR,
-} StackErr;
+} StackRes;
 
-StackErr stack_init(Stack *s, size_t capacity);
+StackRes stack_init(Stack *s, size_t capacity);
 
-void stack_free(Stack*);
+void stack_free(Stack *);
 
 bool stack_is_empty(Stack);
 
 bool stack_is_full(Stack);
 
-StackErr stack_push(Stack *s, int item);
+StackRes stack_push(Stack *s, int item);
 
-StackErr stack_pop(Stack *s, int *item);
+StackRes stack_pop(Stack *s, int *item);
 
 void stack_print(Stack);
 
