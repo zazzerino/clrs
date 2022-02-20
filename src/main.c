@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "../test/stack_test.h"
 #include "../test/queue_test.h"
+#include "../test/dll_test.h"
 
 int main()
 {
@@ -12,6 +13,8 @@ int main()
 
     run_stack_tests();
     run_queue_tests();
+    run_dll_tests();
 
+    puts("tests complete");
     return 0;
 }
