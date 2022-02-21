@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "../test/stack_test.h"
 #include "../test/queue_test.h"
-#include "../test/dll_test.h"
+#include "../test/dllist_test.h"
 
 int main()
 {

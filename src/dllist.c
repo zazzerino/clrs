@@ -2,25 +2,25 @@
 // Created by kdp on 2/19/22.
 //
 
-#include "dll.h"
+#include "dllist.h"
 
-struct dll_node* dll_create_node(int key)
+struct dllist *dllist_create()
 {
-    struct dll_node* node = malloc(sizeof(struct dll_node));
+    struct dllist *dll = malloc(sizeof(struct dllist));
+    dll->head = NULL;
+    return dll;
+}
+
+struct dll_node *dllist_create_node(int key)
+{
+    struct dll_node *node = malloc(sizeof(struct dll_node));
     node->key = key;
     node->next = NULL;
     node->prev = NULL;
     return node;
 }
 
-struct dll* dll_create()
-{
-    struct dll* dll = malloc(sizeof(struct dll));
-    dll->head = NULL;
-    return dll;
-}
-
-struct dll_node* dll_search(struct dll *dll, int key)
+struct dll_node *dllist_search(struct dllist *dll, int key)
 {
     struct dll_node *node = dll->head;
 
@@ -33,7 +33,7 @@ struct dll_node* dll_search(struct dll *dll, int key)
     return node;
 }
 
-void dll_insert_node(struct dll *dll, struct dll_node *node)
+void dllist_insert_node(struct dllist *dll, struct dll_node *node)
 {
     node->next = dll->head;
 
@@ -45,7 +45,7 @@ void dll_insert_node(struct dll *dll, struct dll_node *node)
     node->prev = NULL;
 }
 
-void dll_delete_node(struct dll *dll, struct dll_node *node)
+void dllist_delete_node(struct dllist *dll, struct dll_node *node)
 {
     if (NULL != node->prev) {
         node->prev->next = node->next;
@@ -60,9 +60,11 @@ void dll_delete_node(struct dll *dll, struct dll_node *node)
     free(node);
 }
 
-void dll_free(struct dll *dll)
+void dllist_delete(struct dllist *dll)
 {
-    if (NULL == dll->head) return;
+    if (NULL == dll->head) {
+        goto exit;
+    };
 
     struct dll_node *node = dll->head;
 
@@ -72,6 +74,8 @@ void dll_free(struct dll *dll)
     }
 
     free(node);
+
+    exit:
     free(dll);
 }
 
@@ -80,16 +84,20 @@ void dll_print_node(struct dll_node node)
     printf("node{key=%d, next=%p, prev=%p}", node.key, node.next, node.prev);
 }
 
-//void dll_print(dll_node head)
-//{
-//    printf("dll{items=[");
-//    dll_node *node = &head;
-//
-//    while (NULL != node)
-//    {
-//        dll_print_node(*node);
-//        node = node->next;
-//    }
-//
-//    puts("]}");
-//}
+void dllist_print(struct dllist dll)
+{
+    printf("dllist{items=[");
+    struct dll_node *node = dll.head;
+
+    while (NULL != node)
+    {
+        dll_print_node(*node);
+        node = node->next;
+
+        if (node) {
+            printf(", ");
+        }
+    }
+
+    puts("]}");
+}

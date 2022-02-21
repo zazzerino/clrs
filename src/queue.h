@@ -14,7 +14,7 @@ struct queue
     size_t capacity;
     size_t head;
     size_t tail;
-    int* items;
+    int *items;
 };
 
 enum queue_err

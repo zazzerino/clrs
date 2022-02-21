@@ -39,7 +39,7 @@ enum stack_err stack_push(struct stack *s, int item)
     }
 
     s->items[s->top] = item;
-    s->top++;
+    ++s->top;
     return STACK_OK;
 }
 
@@ -49,7 +49,7 @@ enum stack_err stack_pop(struct stack *s, int *item)
         return STACK_UNDERFLOW_ERR;
     }
 
-    s->top--;
+    --s->top;
     *item = s->items[s->top];
     return STACK_OK;
 }
